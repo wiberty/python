@@ -1,12 +1,21 @@
 import pandas as pd  # csv files are read and analysed in a DataFrame
 
 """"
-Calculates price movement percentages of tickers in a portfolio and ranks them by biggest daily movers.
-Tickers that have negative price movements over 1 day, 1 month, and 1 year periods are displayed separately for review.
-All ticker prices available (regardless of whether they are included in the portfolio) are sorted by daily movers and the top n returned.
+# PRICE MOVEMENT ANALYZER
+
+### **pma.py**
+
+Calculates price movement percentages of tickers in a portfolio and ranks them by biggest daily movers. Tickers that have negative price movements over 1 day
+, 1 month, and 1 year periods are displayed separately for review. All ticker prices available (regardless of whether they are included in the portfolio) are 
+sorted by daily movers and the top n returned.
+
+NB: This is an example class. It feeds from csv files, not JSON requests. The analysis is as basic as possible; however it serves as a structural demonstration 
+of how algorithmic trading might be included, based on analysis of price performance.
+
 Use case: Compare the top tickers available against the bottom tickers within a portfolio, to inform rebalancing decisions.
-NB: This is an example class. It feeds from csv files, not JSON requests. The analysis is as basic as possible;
-however it serves as a structural demonstration of how algorithmic trading might be included, based on analysis of price performance.
+
+Technical details: The class is instantiated from method PMA.analyze, which contains 3 parameters. Argument 1: The ticker list file destination; Argument 2: 
+The ticker price file destination; Argument 3 (optional): defaults to n ticker recommendations in the price analysis.
 """
 
 class PMA:  # Price Movement Analyzer
@@ -21,7 +30,7 @@ class PMA:  # Price Movement Analyzer
         self.negative_tickers_s = None
         self.ticker_prices_uf = None
         self.ticker_prices_uf_s = None
-        self.nprices = nprices  # number of top price movements to be returned
+        self.nprices = nprices  # Number of top price movements to be returned
         self.top_tickers = None
 
     def read_watchlist(self):
@@ -114,10 +123,8 @@ class PMA:  # Price Movement Analyzer
             self.ticker_prices_f_s[['Ranking', 'Ticker', '1 Day %', '1 Month %', '1 Year %']]
             .to_string(index=False, justify='center', col_space=[10, 10, 18, 18, 18], formatters={'1 Day %': '{:.2f}'.format, '1 Month %': '{:.2f}'.format, '1 Year %': '{:.2f}'.format})
         )
-        # Print a blank line before the first table
-        print()
         # Print a table for the filtered data
-        print("Portfolio Performance:")
+        print("\nPortfolio Performance:")
         print(formatted_table_filtered)
 
     def print_negative_tickers(self):
@@ -126,11 +133,14 @@ class PMA:  # Price Movement Analyzer
             self.negative_tickers_s[['Ranking', 'Ticker', '1 Day %', '1 Month %', '1 Year %']]
             .to_string(index=False, justify='center', col_space=[10, 10, 18, 18, 18], formatters={'1 Day %': '{:.2f}'.format, '1 Month %': '{:.2f}'.format, '1 Year %': '{:.2f}'.format})
         )
-        # Print a blank line before the table
-        print()
         # Print the table for the tickers with all negative percentage values
-        print("Tickers with All Negative % Movements:")
-        print(formatted_negative_tickers)
+        print("\nTickers with All Negative % Movements:")
+
+        # Check if formatted_negative_tickers has data
+        if formatted_negative_tickers.strip() and not formatted_negative_tickers.startswith("Empty"):
+            print(formatted_negative_tickers)
+        else:
+            print("None")
 
     def print_unfiltered_data(self):
         # Format the top n tickers from unfiltered data as a table
@@ -138,12 +148,9 @@ class PMA:  # Price Movement Analyzer
             self.top_tickers[['Ranking', 'Ticker', '1 Day %', '1 Month %', '1 Year %']]
             .to_string(index=False, justify='center', col_space=[10, 10, 18, 18, 18], formatters={'1 Day %': '{:.2f}'.format, '1 Month %': '{:.2f}'.format, '1 Year %': '{:.2f}'.format})
         )
-        # Print a blank line before the table
-        print()
         # Print table for the top n tickers from unfiltered data
-        print(f"Top {self.nprices} Tickers Available:")
+        print(f"\nTop {self.nprices} Tickers Available:")
         print(formatted_table_unfiltered)
-        print() # print a blank line for presentation
 
     def analysis(self):
         self.read_watchlist()
@@ -156,7 +163,7 @@ class PMA:  # Price Movement Analyzer
         self.print_filtered_data()
         self.print_negative_tickers()
         self.print_unfiltered_data()
-    
+
     @classmethod
     def analyze(cls, ticker_list, prices, nprices=5):
         # Create an instance of PMA
@@ -165,4 +172,5 @@ class PMA:  # Price Movement Analyzer
 
 
 if __name__ == "__main__":
-    PMA.analyze('ticker_list.csv', 'ticker_prices.csv')
+    # Example
+    PMA.analyze("ticker_list.csv", "ticker_prices.csv")
