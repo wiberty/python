@@ -1,5 +1,5 @@
 # PRICE MOVEMENT ANALYZER
-## Video Demo: <"">
+## Video Demo: <"https://youtu.be/zVLs_OkWq3o">
 ## Description:
 
 An example program for analysing asset prices. Its simplicity demonstrates how quickly tailored analysis models can be built in Python.
