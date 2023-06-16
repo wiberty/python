@@ -14,7 +14,7 @@ Use case: Compare the top tickers available against the bottom tickers within a 
 
 Technical details: The class is instantiated from method PMA.analyze, which contains 3 parameters. Argument 1: The ticker list file destination; Argument 2: The ticker price file destination; Argument 3 (optional): defaults to n ticker recommendations in the price analysis.
 
-Unit tests: **test_pma.py** – testing instances, system output, and error handling.
+Unit tests: **test_pma.py** – testing instances and system output.
 
 ### **project.py**
 
@@ -27,7 +27,7 @@ Let's revisit the 80s and have some text on a screen as a UI. This module enable
 
 Technical details: I remember doing something like this for computer studies at school: a simple interface operated by key presses that enables the user to change data, run some analysis, and output reports.
 
-Unit tests: **test_project.py** – testing function returns, mock input for the interface, system output, and error handling.
+Unit tests: **test_project.py** – testing mock input for the interface.
 
 ### **requirements.txt**
 
